@@ -14,7 +14,7 @@
 
         // Navigation property for related TaskItems
 
-        public ICollection<comment>? TaskItems { get; set; } 
+        public ICollection<TaskItem>? TaskItems { get; set; } 
 
         //projectmember relation
         public ICollection<ProjectMember>? ProjectMembers { get; set; } 

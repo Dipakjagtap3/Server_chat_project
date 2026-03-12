@@ -1,6 +1,7 @@
 ﻿namespace Server_chat_project.Models
 {
-    public class comment
+    public class TaskItem
+
     {
         public int TaskItemId { get; set; }
         public string Title { get; set; } = string.Empty;
@@ -19,8 +20,8 @@
         public Project? Project { get; set; }
 
         //taskassignment relation
-        public ICollection<TaskAssignment>? TaskAssignments { get; set; }
-        public ICollection<Comment> Comments { get; set; }
+        public ICollection<TaskAssignment> ? TaskAssignments { get; set; }
+        public ICollection<Comment> ? Comments { get; set; }
 
     }
 }

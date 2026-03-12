@@ -7,18 +7,24 @@
         public string UserEmail { get; set; } = string.Empty;
 
         //user can create a multiple projects
-        public ICollection<Project> Projects { get; set; } = new List<Project>();
+        public ICollection<Project>? Projects { get; set; }
 
         //projectmember relation
-        public ICollection<ProjectMember> ProjectMembers { get; set; } = new List<ProjectMember>();
+        public ICollection<ProjectMember>? ProjectMembers { get; set; }
 
         //user can create a multiple task
-        public ICollection<TaskItem> TaskItems { get; set; } = new List<TaskItem>();
+        public ICollection<comment>? TaskItems { get; set; }
 
         //taskassignment relation
-        public ICollection<TaskAssignment> taskAssignments { get; set; } = new List<TaskAssignment>();
+        public ICollection<TaskAssignment>? taskAssignments { get; set; }
 
         //comments
-        public ICollection<Comment> Comments { get; set; } = new List<Comment>();
+        public ICollection<Comment>? Comments { get; set; }
+
+        //userroles
+
+        public ICollection<UserRole>? UserRoles { get; set; }
+
+
     }
 }

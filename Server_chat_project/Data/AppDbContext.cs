@@ -13,10 +13,9 @@ namespace Server_chat_project.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<Comment> Comments { get; set; }
-
         public DbSet<ProjectMember> Members { get; set; }
         public DbSet<TaskAssignment> Assignments { get; set; }
-        public DbSet<comment> Tasks { get; set; }
+        public DbSet<TaskItem> TaskItem { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
 
@@ -38,27 +37,34 @@ namespace Server_chat_project.Data
                 entity.HasKey(pm => new { pm.ProjectId });
                 entity.Property(pm => pm.ProjectName).IsRequired().HasMaxLength(200);
                 entity.Property(pm => pm.ProjectDescription).HasMaxLength(1000);
+
                 //creator relationship(User->projects)
                 entity.HasOne(pm => pm.Creator)
                 .WithMany(pm => pm.Projects)
                 .HasForeignKey(pm => pm.CreatorId)
                 .OnDelete(DeleteBehavior.Restrict);
             });
-            modelBuilder.Entity<comment>(entity =>
+
+            modelBuilder.Entity<TaskItem>(entity =>
             {
                 entity.HasKey(t => t.TaskItemId);
                 entity.Property(t => t.Title).IsRequired().HasMaxLength(200);
                 entity.Property(t => t.Status).HasMaxLength(50);
+
+                //project relationship(project-taskitems)
                 entity.HasOne(t => t.Project)
-                .WithMany(p => p.TaskItems)
+                .WithMany(t => t.TaskItems)
                 .HasForeignKey(t => t.ProjectId)
                  .OnDelete(DeleteBehavior.Cascade);
             });
 
+
             modelBuilder.Entity<Comment>(entity =>
             {
                 entity.HasKey(c => c.CommentId);
+
                 entity.Property(c => c.Content).IsRequired().HasMaxLength(1000);
+
                 // relationship (commeent-task)
                 entity.HasOne(c => c.TaskItem).WithMany(t => t.Comments)
                 .HasForeignKey(c => c.TaskId).OnDelete(DeleteBehavior.Cascade);
@@ -69,6 +75,7 @@ namespace Server_chat_project.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             });
+
 
             //ProjectMember
 
@@ -95,8 +102,6 @@ namespace Server_chat_project.Data
             {
                 entity.HasKey(ta => new { ta.UserId, ta.TaskItemId });
 
-
-
                 entity.HasOne(ta => ta.User)
                 .WithMany(u => u.taskAssignments)
                 .HasForeignKey(ta => ta.UserId)
@@ -121,7 +126,6 @@ namespace Server_chat_project.Data
             modelBuilder.Entity<UserRole>(entity =>
             {
                 entity.HasKey(ur => new { ur.UserId, ur.RoleId });
-
                 entity.HasOne(ur => ur.User)
                 .WithMany(u => u.UserRoles)
                 .HasForeignKey(ur => ur.UserId)

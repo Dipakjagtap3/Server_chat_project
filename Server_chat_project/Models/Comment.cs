@@ -9,7 +9,7 @@
         //task relationship
 
         public int TaskId { get; set; }
-        public comment ? TaskItem { get; set; } ;
+        public TaskItem ? TaskItem { get; set; } 
 
         //user relationship
         public int UserId { get; set; }

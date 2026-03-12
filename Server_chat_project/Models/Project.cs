@@ -10,13 +10,13 @@
         //user can create project
         //owenship
         public int CreatorId { get; set; }
-        public User Creator { get; set; } = new User();
+        public User ? Creator { get; set; } 
 
         // Navigation property for related TaskItems
 
-        public ICollection<TaskItem> TaskItems { get; set; } = new List<TaskItem>();
+        public ICollection<comment>? TaskItems { get; set; } 
 
         //projectmember relation
-        public ICollection<ProjectMember> ProjectMembers { get; set; } = new List<ProjectMember>();
+        public ICollection<ProjectMember>? ProjectMembers { get; set; } 
     }
 }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Server_chat_project.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -55,8 +55,7 @@ namespace Server_chat_project.Migrations
                         name: "FK_Projects_Users_CreatorId",
                         column: x => x.CreatorId,
                         principalTable: "Users",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "UserId");
                 });
 
             migrationBuilder.CreateTable(
@@ -73,14 +72,12 @@ namespace Server_chat_project.Migrations
                         name: "FK_UserRoles_Roles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "Roles",
-                        principalColumn: "RoleId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "RoleId");
                     table.ForeignKey(
                         name: "FK_UserRoles_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "UserId");
                 });
 
             migrationBuilder.CreateTable(
@@ -99,18 +96,16 @@ namespace Server_chat_project.Migrations
                         name: "FK_Members_Projects_ProjectId",
                         column: x => x.ProjectId,
                         principalTable: "Projects",
-                        principalColumn: "ProjectId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "ProjectId");
                     table.ForeignKey(
                         name: "FK_Members_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "UserId");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Tasks",
+                name: "TaskItem",
                 columns: table => new
                 {
                     TaskItemId = table.Column<int>(type: "int", nullable: false)
@@ -124,15 +119,14 @@ namespace Server_chat_project.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tasks", x => x.TaskItemId);
+                    table.PrimaryKey("PK_TaskItem", x => x.TaskItemId);
                     table.ForeignKey(
-                        name: "FK_Tasks_Projects_ProjectId",
+                        name: "FK_TaskItem_Projects_ProjectId",
                         column: x => x.ProjectId,
                         principalTable: "Projects",
-                        principalColumn: "ProjectId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "ProjectId");
                     table.ForeignKey(
-                        name: "FK_Tasks_Users_CreatorId",
+                        name: "FK_TaskItem_Users_CreatorId",
                         column: x => x.CreatorId,
                         principalTable: "Users",
                         principalColumn: "UserId",
@@ -151,17 +145,15 @@ namespace Server_chat_project.Migrations
                 {
                     table.PrimaryKey("PK_Assignments", x => new { x.UserId, x.TaskItemId });
                     table.ForeignKey(
-                        name: "FK_Assignments_Tasks_TaskItemId",
+                        name: "FK_Assignments_TaskItem_TaskItemId",
                         column: x => x.TaskItemId,
-                        principalTable: "Tasks",
-                        principalColumn: "TaskItemId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalTable: "TaskItem",
+                        principalColumn: "TaskItemId");
                     table.ForeignKey(
                         name: "FK_Assignments_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "UserId");
                 });
 
             migrationBuilder.CreateTable(
@@ -179,17 +171,15 @@ namespace Server_chat_project.Migrations
                 {
                     table.PrimaryKey("PK_Comments", x => x.CommentId);
                     table.ForeignKey(
-                        name: "FK_Comments_Tasks_TaskId",
+                        name: "FK_Comments_TaskItem_TaskId",
                         column: x => x.TaskId,
-                        principalTable: "Tasks",
-                        principalColumn: "TaskItemId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalTable: "TaskItem",
+                        principalColumn: "TaskItemId");
                     table.ForeignKey(
                         name: "FK_Comments_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "UserId");
                 });
 
             migrationBuilder.CreateIndex(
@@ -218,13 +208,13 @@ namespace Server_chat_project.Migrations
                 column: "CreatorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tasks_CreatorId",
-                table: "Tasks",
+                name: "IX_TaskItem_CreatorId",
+                table: "TaskItem",
                 column: "CreatorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tasks_ProjectId",
-                table: "Tasks",
+                name: "IX_TaskItem_ProjectId",
+                table: "TaskItem",
                 column: "ProjectId");
 
             migrationBuilder.CreateIndex(
@@ -249,7 +239,7 @@ namespace Server_chat_project.Migrations
                 name: "UserRoles");
 
             migrationBuilder.DropTable(
-                name: "Tasks");
+                name: "TaskItem");
 
             migrationBuilder.DropTable(
                 name: "Roles");

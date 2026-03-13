@@ -13,10 +13,10 @@
         public ICollection<ProjectMember>? ProjectMembers { get; set; }
 
         //user can create a multiple task
-        public ICollection<comment>? TaskItems { get; set; }
+        public ICollection<TaskItem>? TaskItems { get; set; }
 
         //taskassignment relation
-        public ICollection<TaskAssignment>? taskAssignments { get; set; }
+        public ICollection<TaskAssignment>? TaskAssignments { get; set; }
 
         //comments
         public ICollection<Comment>? Comments { get; set; }

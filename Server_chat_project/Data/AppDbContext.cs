@@ -42,7 +42,7 @@ namespace Server_chat_project.Data
                 entity.HasOne(pm => pm.Creator)
                 .WithMany(pm => pm.Projects)
                 .HasForeignKey(pm => pm.CreatorId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.NoAction);
             });
 
             modelBuilder.Entity<TaskItem>(entity =>
@@ -55,7 +55,7 @@ namespace Server_chat_project.Data
                 entity.HasOne(t => t.Project)
                 .WithMany(t => t.TaskItems)
                 .HasForeignKey(t => t.ProjectId)
-                 .OnDelete(DeleteBehavior.Cascade);
+                 .OnDelete(DeleteBehavior.NoAction);
             });
 
 
@@ -67,12 +67,12 @@ namespace Server_chat_project.Data
 
                 // relationship (commeent-task)
                 entity.HasOne(c => c.TaskItem).WithMany(t => t.Comments)
-                .HasForeignKey(c => c.TaskId).OnDelete(DeleteBehavior.Cascade);
+                .HasForeignKey(c => c.TaskId).OnDelete(DeleteBehavior.NoAction);
 
                 //user relationship 
                 entity.HasOne(c => c.User).WithMany(u => u.Comments)
                 .HasForeignKey(c => c.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.NoAction);
 
             });
 
@@ -87,12 +87,12 @@ namespace Server_chat_project.Data
                 entity.HasOne(pm => pm.User)
                 .WithMany(u => u.ProjectMembers)
                 .HasForeignKey(pm => pm.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
                 entity.HasOne(pm => pm.Project)
                 .WithMany(u => u.ProjectMembers)
                 .HasForeignKey(pm => pm.ProjectId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
 
             });
@@ -103,14 +103,14 @@ namespace Server_chat_project.Data
                 entity.HasKey(ta => new { ta.UserId, ta.TaskItemId });
 
                 entity.HasOne(ta => ta.User)
-                .WithMany(u => u.taskAssignments)
+                .WithMany(u => u.TaskAssignments)
                 .HasForeignKey(ta => ta.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
                 entity.HasOne(ta => ta.TaskItem)
                 .WithMany(u => u.TaskAssignments)
                 .HasForeignKey(ta => ta.TaskItemId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
 
             });
@@ -129,12 +129,12 @@ namespace Server_chat_project.Data
                 entity.HasOne(ur => ur.User)
                 .WithMany(u => u.UserRoles)
                 .HasForeignKey(ur => ur.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
                 entity.HasOne(ur => ur.Role)
                 .WithMany(r => r.UserRoles)
                 .HasForeignKey(ur => ur.RoleId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
 
             });

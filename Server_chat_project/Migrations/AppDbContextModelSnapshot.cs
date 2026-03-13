@@ -140,6 +140,46 @@ namespace Server_chat_project.Migrations
                     b.ToTable("Assignments");
                 });
 
+            modelBuilder.Entity("Server_chat_project.Models.TaskItem", b =>
+                {
+                    b.Property<int>("TaskItemId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TaskItemId"));
+
+                    b.Property<int>("CreatorId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DueDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("TaskItemId");
+
+                    b.HasIndex("CreatorId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("TaskItem");
+                });
+
             modelBuilder.Entity("Server_chat_project.Models.User", b =>
                 {
                     b.Property<int>("UserId")
@@ -178,58 +218,18 @@ namespace Server_chat_project.Migrations
                     b.ToTable("UserRoles");
                 });
 
-            modelBuilder.Entity("Server_chat_project.Models.comment", b =>
-                {
-                    b.Property<int>("TaskItemId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TaskItemId"));
-
-                    b.Property<int>("CreatorId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DueDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ProjectId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.HasKey("TaskItemId");
-
-                    b.HasIndex("CreatorId");
-
-                    b.HasIndex("ProjectId");
-
-                    b.ToTable("Tasks");
-                });
-
             modelBuilder.Entity("Server_chat_project.Models.Comment", b =>
                 {
-                    b.HasOne("Server_chat_project.Models.comment", "TaskItem")
+                    b.HasOne("Server_chat_project.Models.TaskItem", "TaskItem")
                         .WithMany("Comments")
                         .HasForeignKey("TaskId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Server_chat_project.Models.User", "User")
                         .WithMany("Comments")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("TaskItem");
@@ -242,7 +242,7 @@ namespace Server_chat_project.Migrations
                     b.HasOne("Server_chat_project.Models.User", "Creator")
                         .WithMany("Projects")
                         .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Creator");
@@ -253,13 +253,13 @@ namespace Server_chat_project.Migrations
                     b.HasOne("Server_chat_project.Models.Project", "Project")
                         .WithMany("ProjectMembers")
                         .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Server_chat_project.Models.User", "User")
                         .WithMany("ProjectMembers")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Project");
@@ -269,14 +269,14 @@ namespace Server_chat_project.Migrations
 
             modelBuilder.Entity("Server_chat_project.Models.TaskAssignment", b =>
                 {
-                    b.HasOne("Server_chat_project.Models.comment", "TaskItem")
+                    b.HasOne("Server_chat_project.Models.TaskItem", "TaskItem")
                         .WithMany("TaskAssignments")
                         .HasForeignKey("TaskItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Server_chat_project.Models.User", "User")
-                        .WithMany("taskAssignments")
+                        .WithMany("TaskAssignments")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
@@ -286,26 +286,7 @@ namespace Server_chat_project.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Server_chat_project.Models.UserRole", b =>
-                {
-                    b.HasOne("Server_chat_project.Models.Role", "Role")
-                        .WithMany("UserRoles")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Server_chat_project.Models.User", "User")
-                        .WithMany("UserRoles")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Role");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Server_chat_project.Models.comment", b =>
+            modelBuilder.Entity("Server_chat_project.Models.TaskItem", b =>
                 {
                     b.HasOne("Server_chat_project.Models.User", "Creator")
                         .WithMany("TaskItems")
@@ -316,12 +297,31 @@ namespace Server_chat_project.Migrations
                     b.HasOne("Server_chat_project.Models.Project", "Project")
                         .WithMany("TaskItems")
                         .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Creator");
 
                     b.Navigation("Project");
+                });
+
+            modelBuilder.Entity("Server_chat_project.Models.UserRole", b =>
+                {
+                    b.HasOne("Server_chat_project.Models.Role", "Role")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Server_chat_project.Models.User", "User")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Server_chat_project.Models.Project", b =>
@@ -336,6 +336,13 @@ namespace Server_chat_project.Migrations
                     b.Navigation("UserRoles");
                 });
 
+            modelBuilder.Entity("Server_chat_project.Models.TaskItem", b =>
+                {
+                    b.Navigation("Comments");
+
+                    b.Navigation("TaskAssignments");
+                });
+
             modelBuilder.Entity("Server_chat_project.Models.User", b =>
                 {
                     b.Navigation("Comments");
@@ -344,18 +351,11 @@ namespace Server_chat_project.Migrations
 
                     b.Navigation("Projects");
 
+                    b.Navigation("TaskAssignments");
+
                     b.Navigation("TaskItems");
 
                     b.Navigation("UserRoles");
-
-                    b.Navigation("taskAssignments");
-                });
-
-            modelBuilder.Entity("Server_chat_project.Models.comment", b =>
-                {
-                    b.Navigation("Comments");
-
-                    b.Navigation("TaskAssignments");
                 });
 #pragma warning restore 612, 618
         }

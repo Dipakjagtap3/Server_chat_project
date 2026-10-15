@@ -5,9 +5,10 @@
         public int UserId { get; set; }
         public string Username { get; set; } = string.Empty;
         public string UserEmail { get; set; } = string.Empty;
+        public string HashPassword { get; set; } = string.Empty;
 
         //user can create a multiple projects
-        public ICollection<Project>? Projects { get; set; }
+        public ICollection<Project>? Projects { get; set; } 
 
         //projectmember relation
         public ICollection<ProjectMember>? ProjectMembers { get; set; }

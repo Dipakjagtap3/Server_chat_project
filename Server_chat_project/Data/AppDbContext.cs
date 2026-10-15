@@ -97,6 +97,7 @@ namespace Server_chat_project.Data
 
             });
 
+
             //TaskAssignment
             modelBuilder.Entity<TaskAssignment>(entity =>
             {
@@ -111,7 +112,6 @@ namespace Server_chat_project.Data
                 .WithMany(u => u.TaskAssignments)
                 .HasForeignKey(ta => ta.TaskItemId)
                 .OnDelete(DeleteBehavior.NoAction);
-
 
             });
 

@@ -9,6 +9,7 @@
         public DateTime DueDate { get; set; }
         public string Status { get; set; } = string.Empty;
 
+
         //owenship
 
         public int CreatorId { get; set; }
@@ -22,6 +23,7 @@
         //taskassignment relation
         public ICollection<TaskAssignment> ? TaskAssignments { get; set; }
         public ICollection<Comment> ? Comments { get; set; }
+
 
     }
 }

@@ -18,9 +18,11 @@ namespace Server_chat_project.Data
                     new Role { RoleName = "Developer" },
                     new Role { RoleName = "Manager" }
                 };
+
                 await _dbcontext.AddRangeAsync(roles);
                 await _dbcontext.SaveChangesAsync();
             }
+
             //seed user
 
             if (!_dbcontext.Users.Any())
@@ -31,6 +33,7 @@ namespace Server_chat_project.Data
                     UserEmail = "admin@system.com"
 
                 };
+
                 await _dbcontext.AddAsync(admin);
 
                 var adminRole = await _dbcontext.Roles.FirstOrDefaultAsync(role => role.RoleName == "Admin");
